@@ -1,10 +1,19 @@
-import './App.css';
+import React from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
+import ChatRoom from './components/ChatRoom';
+import AuthProvider from './Context/AuthProvider';
 
 function App() {
   return (
-    <div className="App">
-      message-app-initialization
-    </div>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route element={<Login />} path='/login' />
+          <Route element={<ChatRoom />} path='/' />
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
