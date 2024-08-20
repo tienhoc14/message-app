@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Col, Row, Typography } from 'antd';
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAdditionalUserInfo, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth } from '../../firebase/config';
+import { addDocument } from '../../firebase/services';
 
 const { Title } = Typography;
 const provider = new GoogleAuthProvider();
@@ -9,7 +10,13 @@ const provider = new GoogleAuthProvider();
 function Login() {
 
   const handleLoginGoogle = () => {
-    signInWithPopup(auth, provider);
+    signInWithPopup(auth, provider).then(res => {
+      const { isNewUser, providerId } = getAdditionalUserInfo(res);
+      if (isNewUser) {
+        const { displayName, email, photoURL, uid } = res.user;
+        addDocument('users', { displayName, email, photoURL, uid, providerId });
+      }
+    });
   };
 
   return (
