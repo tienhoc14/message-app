@@ -1,6 +1,8 @@
 import { Avatar, Button, Typography } from 'antd';
-import React from 'react';
+import { signOut } from 'firebase/auth';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { auth } from '../../firebase/config';
 
 const WrapperStyled = styled.div`
   display: flex;
@@ -15,13 +17,23 @@ const WrapperStyled = styled.div`
 `;
 
 function UserInfo() {
+
+  useEffect(() => {
+
+  }, []);
+
+
+  const handleLogout = () => {
+    signOut(auth);
+  };
+
   return (
     <WrapperStyled>
       <div>
         <Avatar src={''} />
         <Typography.Text className='username'>username</Typography.Text>
       </div>
-      <Button ghost>LOGOUT</Button>
+      <Button ghost onClick={handleLogout}>LOGOUT</Button>
     </WrapperStyled>
   );
 };
