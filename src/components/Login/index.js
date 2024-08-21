@@ -16,7 +16,7 @@ function Login() {
         const { displayName, email, photoURL, uid } = res.user;
         addDocument('users', { displayName, email, photoURL, uid, providerId });
       }
-    });
+    }).catch(err => console.log(err));
   };
 
   return (
