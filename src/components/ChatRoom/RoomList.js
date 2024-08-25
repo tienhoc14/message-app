@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Collapse, Typography } from 'antd';
 import styled from 'styled-components';
 import { PlusSquareOutlined } from '@ant-design/icons';
+import { AppContext } from '../../Context/AppProvider';
 
 const { Panel } = Collapse;
 
@@ -25,20 +26,24 @@ const PanelStyled = styled(Panel)`
 const LinkStyled = styled(Typography.Link)`
   display: block;
   margin-bottom: 5px;
-  color: white !important;
 `;
 
 function RoomList() {
+  const { rooms, setOpenCreateRoom } = useContext(AppContext);
+
+  const handleClickAdd = () => {
+    setOpenCreateRoom(true);
+  };
+
   return (
     <Collapse ghost defaultActiveKey={['1']}>
       <PanelStyled header={'Room list'} key={'1'} >
-        <LinkStyled>Room 1</LinkStyled>
-        <LinkStyled>Room 1</LinkStyled>
-        <LinkStyled>Room 1</LinkStyled>
+        {rooms.map(room => <LinkStyled key={room.id}>{room.name}</LinkStyled>)}
         <Button
           icon={<PlusSquareOutlined />}
           type='text'
           className='add-room'
+          onClick={handleClickAdd}
         >
           New Room
         </Button>
