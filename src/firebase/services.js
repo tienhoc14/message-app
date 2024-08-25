@@ -4,6 +4,6 @@ import { db } from "./config";
 export const addDocument = (table, data) => {
   addDoc(collection(db, table), {
     ...data,
-    createAt: serverTimestamp()
+    createdAt: serverTimestamp()
   });
 };

@@ -4,7 +4,7 @@ import { auth } from '../firebase/config';
 import { useNavigate } from 'react-router-dom';
 import { Spin } from 'antd';
 
-const AuthContext = createContext();
+export const AuthContext = createContext();
 
 function AuthProvider({ children }) {
   const navigate = useNavigate();
