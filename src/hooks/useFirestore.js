@@ -17,7 +17,7 @@ const useFirestore = (table, condition) => {
       );
     }
 
-    const unsubscribe = onSnapshot(q, (snapshot) => {
+    const unsubscribe = onSnapshot(q || collectionRef, (snapshot) => {
       setDocuments(snapshot.docs.map(doc => ({
         ...doc.data(),
         id: doc.id
