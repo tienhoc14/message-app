@@ -6,6 +6,7 @@ export const AppContext = createContext();
 
 function AppProvider({ children }) {
   const [openCreateRoom, setOpenCreateRoom] = useState(false);
+  const [selectedRoomId, setSelectedRoomId] = useState('');
 
   const { user: { uid } } = useContext(AuthContext);
 
@@ -19,8 +20,32 @@ function AppProvider({ children }) {
 
   const rooms = useFirestore('rooms', roomsCondition);
 
+  const selectedRoom = useMemo(() => (
+    rooms.find(room => room.id === selectedRoomId) || {}
+  ), [rooms, selectedRoomId]);
+
+  const usersCondition = useMemo(() => {
+    return {
+      fieldName: 'uid',
+      operator: 'in',
+      compareValue: selectedRoom.members
+    };
+  }, [selectedRoom.members]);
+
+  const members = useFirestore('users', usersCondition);
+
   return (
-    <AppContext.Provider value={{ rooms, openCreateRoom, setOpenCreateRoom }}>
+    <AppContext.Provider
+      value={{
+        rooms,
+        members,
+        openCreateRoom,
+        setOpenCreateRoom,
+        selectedRoom,
+        selectedRoomId,
+        setSelectedRoomId
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

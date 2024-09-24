@@ -29,7 +29,7 @@ const LinkStyled = styled(Typography.Link)`
 `;
 
 function RoomList() {
-  const { rooms, setOpenCreateRoom } = useContext(AppContext);
+  const { rooms, setOpenCreateRoom, setSelectedRoomId } = useContext(AppContext);
 
   const handleClickAdd = () => {
     setOpenCreateRoom(true);
@@ -38,7 +38,11 @@ function RoomList() {
   return (
     <Collapse ghost defaultActiveKey={['1']}>
       <PanelStyled header={'Room list'} key={'1'} >
-        {rooms.map(room => <LinkStyled key={room.id}>{room.name}</LinkStyled>)}
+        {rooms.map(room =>
+          <LinkStyled key={room.id} onClick={() => setSelectedRoomId(room.id)}>
+            {room.name}
+          </LinkStyled>
+        )}
         <Button
           icon={<PlusSquareOutlined />}
           type='text'
